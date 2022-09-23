@@ -43,7 +43,8 @@ THIRD_APPS = (
 )
 
 LOCAL_APPS = (
-    'posts.apps.PostsConfig',
+    'posts',
+    'users',
 )
 
 INSTALLED_APPS = (DJANGO_APPS + THIRD_APPS + LOCAL_APPS)
