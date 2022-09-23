@@ -1,9 +1,8 @@
-"""Posts views."""
+"""Posts views"""
 
-# Utilities
+
 from datetime import datetime
 
-# Django
 from django.shortcuts import render
 
 

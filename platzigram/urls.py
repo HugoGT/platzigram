@@ -1,9 +1,8 @@
-from django.urls import path, include
+from django.urls import path
 from django.contrib import admin
 
-from .views import hello_world, numbers, hi
-
 from posts import views as posts_views
+from .views import hello_world, numbers, hi
 
 
 urlpatterns = [
