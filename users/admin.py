@@ -53,7 +53,7 @@ class ProfileInLine(admin.StackedInline):
     """Profile in-line admin for users"""
 
     model = Profile
-    can_delete = True
+    can_delete = False
     verbose_name_plural = 'profiles'
 
 
