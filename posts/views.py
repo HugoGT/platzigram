@@ -3,6 +3,7 @@
 
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 
@@ -13,7 +14,7 @@ posts = [
             'name': 'Yésica Cortés',
             'picture': 'https://picsum.photos/60/60/?image=1027'
         },
-        'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
+        'timestamp': datetime.now().strftime('%d %b, %Y - %H:%M hrs'),
         'photo': 'https://picsum.photos/800/600?image=1036',
     },
     {
@@ -22,7 +23,7 @@ posts = [
             'name': 'Christian Van der Henst',
             'picture': 'https://picsum.photos/60/60/?image=1005'
         },
-        'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
+        'timestamp': datetime.now().strftime('%d %b, %Y - %H:%M hrs'),
         'photo': 'https://picsum.photos/800/800/?image=903',
     },
     {
@@ -31,12 +32,16 @@ posts = [
             'name': 'Uriel (thespianartist)',
             'picture': 'https://picsum.photos/60/60/?image=883'
         },
-        'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
+        'timestamp': datetime.now().strftime('%d %b, %Y - %H:%M hrs'),
         'photo': 'https://picsum.photos/500/700/?image=1076',
     }
 ]
 
-
+@login_required
 def list_posts(request):
     """List existing posts."""
-    return render(request, 'feed.html', {'posts': posts})
+    return render(
+        request,
+        'posts/feed.html',
+        {'posts': posts},
+        )
