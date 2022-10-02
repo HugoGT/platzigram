@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block container %}
+  <h1 class="mt-5">
+    @{{ request.user.username }}
+  </h1>
+{% endblock container %}

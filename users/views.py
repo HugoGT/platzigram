@@ -12,31 +12,6 @@ from django.shortcuts import render, redirect
 from .models import Profile
 
 
-def login_view(request):
-    """Login view"""
-    if request.user.is_authenticated:
-        return redirect('feed')
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return redirect('feed')
-        else:
-            return render(request, 'users/login.html', {'error': 'Invalid username or password.'})
-
-    return render(request, 'users/login.html')
-
-
-@login_required
-def logout_view(request):
-    """Logout a user"""
-    logout(request)
-    return redirect('login')
-
-
 def signup_view(request):
     """Sign up a user"""
     if request.user.is_authenticated:
@@ -79,3 +54,34 @@ def signup_view(request):
                 return redirect('login')
 
     return render(request, 'users/signup.html')
+
+
+def login_view(request):
+    """Login view"""
+    if request.user.is_authenticated:
+        return redirect('feed')
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('feed')
+        else:
+            return render(request, 'users/login.html', {'error': 'Invalid username or password.'})
+
+    return render(request, 'users/login.html')
+
+
+@login_required
+def logout_view(request):
+    """Logout a user"""
+    logout(request)
+    return redirect('login')
+
+
+@login_required
+def update_profile(request):
+    """Update a user's profile view"""
+    return render(request, 'users/update_profile.html')
