@@ -1,8 +1,97 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
+{% block head_content %}
+<title>@{{ request.user.username }} | Update profile</title>
+{% endblock %}
+
 {% block container %}
-  <h1 class="mt-5">
-    @{{ request.user.username }}
-  </h1>
-{% endblock container %}
+
+<div class="container">
+
+  <div class="row justify-content-md-center">
+    <div class="col-6 p-4" id="profile-box">
+
+      <form method="POST" action="{% url 'update_profile' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if messages %}
+          <ul class="messages list-unstyled">
+          {% for message in messages %}
+            <li class="alert alert-success">
+            {% if message.tags %}
+              {{ message }}
+            {% endif %}
+            </li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% for field in form %}
+          {% if field.errors %}
+            <p class="alert alert-danger">
+              {{ field.label }}: {{ field.errors|striptags }}
+            </p>
+          {% endif %}
+        {% endfor %}
+
+        <div class="media">
+          <img
+            src="{% static 'img/default-profile.png' %}"
+            class="rounded-circle"
+            height="50"
+          />
+          <div class="media-body">
+            <h5 class="ml-4">{{user.get_full_name}} | @{{ user.username }}</h5>
+            <p class="ml-4">
+              <input type="file" name="picture" required="true" />
+            </p>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+          <label>Website</label>
+          <input
+            class="form-control"
+            type="url"
+            name="website"
+            placeholder="www.example.com"
+            value="{{ profile.website }}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Biography</label>
+          <textarea
+            class="form-control"
+            name="biography"
+            placeholder="Tell us about you"
+          >{% if profile.biography %}{{ profile.biography }}{% endif %}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Phone number</label>
+          <input
+            class="form-control"
+            type="text"
+            name="phone_number"
+            placeholder="+1 87654321"
+            {% if porfile.phone_number %}
+              value="{{ profile.phone_number }}"
+            {% endif %}
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-4">
+          Update info
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
