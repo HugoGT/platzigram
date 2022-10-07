@@ -93,14 +93,20 @@ def update_profile(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            profile.website = data['website']
-            profile.phone_number = data['phone_number']
-            profile.biography = data['biography']
-            profile.picture = data['picture']
-            profile.save()
+            try:
+                profile.phone_number = data['phone_number']
+                profile.website = data['website']
+                profile.biography = data['biography']
+                profile.picture = data['picture']
+                profile.save()
+
+            except IntegrityError:
+                return render(request, 'users/update_profile.html', {'error': 'This phone number is already in use.'})
+
             messages.success(request, 'Your profile has been updated!')
 
             return redirect('update_profile')
+
     else:
         form = ProfileForm()
 

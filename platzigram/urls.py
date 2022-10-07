@@ -15,6 +15,7 @@ urlpatterns = [
 
     #Post views
     path('', posts_views.list_posts, name='feed'),
+    path('new-post', posts_views.create_post, name='new_post'),
 
     #Users views
     path('login/', users_views.login_view, name='login'),
