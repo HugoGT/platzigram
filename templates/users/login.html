@@ -3,54 +3,55 @@
 
 {% block container %}
 
-  {% if error %}
-  <p class="alert alert-danger">{{ error }}</p>
-  {% endif%}
 
-  <div class="row justify-content-center align-middle">
-    <div class="col-sm-12 col-md-6 col-lg-4 p-5" id="auth-container">
+<div class="row justify-content-center align-middle">
+  <div class="col-sm-12 col-md-6 col-lg-4 p-5" id="auth-container">
 
-      <img
-        src="{% static 'img/platzigram.png' %}"
-        alt="platzigram image"
-        class="img-fluid rounded mx-auto d-block pb-4"
-        style="max-width: 60%"
-      />
+    <img
+    src="{% static 'img/platzigram.png' %}"
+    alt="platzigram image"
+    class="img-fluid rounded mx-auto d-block pb-4"
+    style="max-width: 60%"
+    />
 
-      <form method="POST" action="{% url 'login' %}">
-        {% csrf_token %}
+    {% if error %}
+      <p class="alert alert-danger">{{ error }}</p>
+    {% endif%}
 
-        <div class="mb-3">
-          <input
-            placeholder="Username"
-            type="username"
-            class="form-control"
-            id="InputUsername"
-            aria-describedby="emailHelp"
-            name="username"
-          />
-        </div>
+    <form method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
 
-        <div class="mb-3">
-          <input
-            placeholder="Password"
-            type="password"
-            class="form-control"
-            id="InputPassword"
-            name="password"
-          />
-        </div>
+      <div class="mb-3">
+        <input
+          placeholder="Username"
+          type="username"
+          class="form-control"
+          id="InputUsername"
+          aria-describedby="emailHelp"
+          name="username"
+        />
+      </div>
 
-        <button type="submit" class="btn btn-primary w-100">Sign in</button>
-      </form>
+      <div class="mb-3">
+        <input
+          placeholder="Password"
+          type="password"
+          class="form-control"
+          id="InputPassword"
+          name="password"
+        />
+      </div>
 
-      <hr>
-      <p class="text-muted">Don't have an account yet?, Create one</p>
-      <a href="{% url 'signup' %}">
-        <button class="btn btn-success w-100">Sign up</button>
-      </a>
+      <button type="submit" class="btn btn-primary w-100">Sign in</button>
+    </form>
 
-    </div>
+    <hr>
+    <p class="text-muted">Don't have an account yet?, Create one</p>
+    <a href="{% url 'signup' %}">
+      <button class="btn btn-success w-100">Sign up</button>
+    </a>
+
   </div>
+</div>
 
 {% endblock container %}

@@ -40,6 +40,16 @@ body {
   color: #1d5e72;
 }
 
+.errorlist {
+  color: #dc3545;
+  padding: 0;
+}
+
+.errorlist li::before {
+  content: '· ';
+  color: #dc3545;
+}
+
 #profile-box {
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.0975);

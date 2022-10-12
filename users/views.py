@@ -4,58 +4,29 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.db.utils import IntegrityError
 from django.shortcuts import render, redirect
 
-from .models import Profile
-from .forms import ProfileForm
+from .forms import ProfileForm, SignupForm
 
 
 def signup_view(request):
-    """Sign up a user"""
-    if request.user.is_authenticated:
-        return redirect('feed')
-
+    """Sign up view."""
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password_conf = request.POST['password_confirmation']
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = SignupForm()
 
-        if password_conf != password:
-            return render(request, 'users/signup.html', {'error': 'Passwords do NOT match!, try again.'})
-
-        else:
-            try:
-                validate_email(email)
-                if User.objects.filter(email=email):
-                    raise IntegrityError
-            except ValidationError as e:
-                return render(request, 'users/signup.html', {'error': e.message})
-            except IntegrityError:
-                return render(request, 'users/signup.html', {'error': 'Email has already been taken.'})
-            else:
-                try:
-                    user = User.objects.create_user(
-                        first_name=first_name,
-                        last_name=last_name,
-                        username=username,
-                        password=password,
-                        email=email)
-                except IntegrityError:
-                    return render(request, 'users/signup.html', {'error': 'Username has already been taken.'})
-
-                profile = Profile(user=user,)
-                profile.save()
-
-                return redirect('login')
-
-    return render(request, 'users/signup.html')
+    return render(
+        request=request,
+        template_name='users/signup.html',
+        context={
+            'form': form,
+        }
+    )
 
 
 def login_view(request):
@@ -71,7 +42,7 @@ def login_view(request):
             login(request, user)
             return redirect('feed')
         else:
-            return render(request, 'users/login.html', {'error': 'Invalid username or password.'})
+            return render(request, 'users/login.html', {'error': 'Invalid username or password'})
 
     return render(request, 'users/login.html')
 
@@ -101,7 +72,7 @@ def update_profile(request):
                 profile.save()
 
             except IntegrityError:
-                return render(request, 'users/update_profile.html', {'error': 'This phone number is already in use.'})
+                return render(request, 'users/update_profile.html', {'error': 'This phone number is already in use'})
 
             messages.success(request, 'Your profile has been updated!')
 
