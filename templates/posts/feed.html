@@ -6,16 +6,36 @@
 <div class="container">
   <div class="row">
 
+    {% if messages %}
+      <ul class="messages list-unstyled">
+      {% for message in messages %}
+        <li class="alert alert-success">
+        {% if message.tags %}
+          {{ message }}
+        {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+
     {% for post in posts %}
 
     <div class="col-sm-12 col-md-8 mt-5 offset-md-2 post-container">
       <div class="media pt-3 ps-3 pb-1">
-        <img
+
+        <a href="{% url 'users:user_detail' post.user.username %}">
+          <img
           class="me-3 rounded-circle"
           height="35"
-          src="{{ post.profile.picture.url }}"
+          src="
+            {% if user.profile.picture %}
+              {{ user.profile.picture.url }}
+            {% else %}
+              {% static 'img/default-profile.png' %}
+            {% endif %}"
           alt="{{ post.user.get_full_name }}"
-        />
+          />
+        </a>
         <div class="media-body">
           <p style="margin-top: 5px">{{ post.user.get_full_name }}</p>
         </div>

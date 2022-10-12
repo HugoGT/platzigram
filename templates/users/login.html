@@ -18,7 +18,7 @@
       <p class="alert alert-danger">{{ error }}</p>
     {% endif%}
 
-    <form method="POST" action="{% url 'login' %}">
+    <form method="POST" action="{% url 'users:login' %}">
       {% csrf_token %}
 
       <div class="mb-3">
@@ -47,7 +47,7 @@
 
     <hr>
     <p class="text-muted">Don't have an account yet?, Create one</p>
-    <a href="{% url 'signup' %}">
+    <a href="{% url 'users:signup' %}">
       <button class="btn btn-success w-100">Sign up</button>
     </a>
 

@@ -40,6 +40,24 @@ body {
   color: #1d5e72;
 }
 
+.user-image {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+}
+
+.sm-user-image {
+height: 40px;
+width: 40px;
+object-fit: cover;
+}
+
+.detail-image {
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+}
+
 .errorlist {
   color: #dc3545;
   padding: 0;
