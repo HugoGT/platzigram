@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     #local
-    'platzigram.middleware.ProfileCompletionMiddleware'
+    # 'platzigram.middleware.ProfileCompletionMiddleware'
 ]
 
 ROOT_URLCONF = 'platzigram.urls'

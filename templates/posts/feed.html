@@ -21,37 +21,35 @@
     {% for post in posts %}
 
     <div class="col-sm-12 col-md-8 mt-5 offset-md-2 post-container">
-      <div class="media pt-3 ps-3 pb-1">
-
-        <a href="{% url 'users:user_detail' post.user.username %}">
+      <div class="media container py-3 ps-0">
+        <a href="{% url 'users:user_detail' post.user.username %}" class="d-flex align-items-center">
           <img
-          class="me-3 rounded-circle"
-          height="35"
+          class="rounded-circle"
+          height="40"
           src="
-            {% if user.profile.picture %}
-              {{ user.profile.picture.url }}
-            {% else %}
-              {% static 'img/default-profile.png' %}
-            {% endif %}"
+          {% if post.user.profile.picture %}
+            {{ post.user.profile.picture.url }}
+          {% else %}
+            {% static 'img/default-profile.png' %}
+          {% endif %}"
           alt="{{ post.user.get_full_name }}"
           />
+          <p class="m-0 username">
+            {{ post.user.username }}
+          </p>
         </a>
-        <div class="media-body">
-          <p style="margin-top: 5px">{{ post.user.get_full_name }}</p>
-        </div>
       </div>
-      <img
+      <a href="{% url 'posts:post_detail' post.id %}">
+        <img
         style="width: 100%"
         src="{{ post.photo.url }}"
         alt="{{ post.title }}"
-      />
-      <h6 class="ms-1 mt-1 mb-3">{{ post.title }}</h6>
-      <p class="mt-1 ms-2 mb-2">
+        />
+      </a>
+      <h6 class="m-3 ms-0">{{ post.title }}</h6>
+      <p class="m-3 ms-0">
         <i class="far fa-heart" style="color: #000; font-size: 20px"></i>
-        30 likes
-      </p>
-      <p class="ms-2 mt-0 mb-2">
-        - <small>{{post.created}}</small>
+        30 likes - {{ post.created }}
       </p>
     </div>
 

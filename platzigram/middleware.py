@@ -4,6 +4,8 @@
 from django.shortcuts import redirect
 from django.urls import reverse
 
+from . import settings
+
 
 class ProfileCompletionMiddleware:
     """Profile completion middleware
@@ -17,12 +19,13 @@ class ProfileCompletionMiddleware:
 
     def __call__(self, request):
         """Code to be exectued for each request before the view is called"""
-        if not request.user.is_staff:
-            if request.user.is_authenticated:
-                profile = request.user.profile
-                if not profile.biography:
-                    if request.path != [reverse('users:logout'), reverse('users:update_profile')]:
-                        return redirect('users:update_profile')
+        if not request.user.is_anonymous:
+            if not request.path.startswith(settings.MEDIA_URL):
+                if not request.user.is_staff:
+                    profile = request.user.profile
+                    if not profile.biography:
+                        if request.path != [reverse('users:logout'), reverse('users:update_profile')]:
+                            return redirect('users:update_profile')
 
         response = self.get_response(request)
         return response

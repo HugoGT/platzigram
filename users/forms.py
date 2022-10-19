@@ -39,7 +39,7 @@ class SignupForm(forms.Form):
                 'class': 'form-control',
                 }
             )
-            )
+        )
 
     last_name = forms.CharField(
         label=False,
@@ -115,5 +115,5 @@ class SignupForm(forms.Form):
         data.pop('password_confirmation')
 
         user = User.objects.create_user(**data)
-        profile = Profile(user=user)
+        profile = Profile.objects.create(user=user)
         profile.save()

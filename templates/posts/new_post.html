@@ -9,7 +9,7 @@
 <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-6 p-4" id="profile-box">
-      <h4 class="mb-4">Post a new photo!</h4>
+      <h5 class="mb-2">Post a new photo!</h5>
 
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -17,13 +17,13 @@
         <input type="hidden" name="user" value="{{ user.pk }}" />
         <input type="hidden" name="profile" value="{{ profile.pk }}" />
 
-        {# Website field #}
-        <div class="form-group">
+        {# Description field #}
+        <div class="form-group mb-2">
           <input
             class="form-control {% if form.title.errors %}is-invalid{% endif %}"
             type="text"
             name="title"
-            placeholder="Title"
+            placeholder="Description"
           />
           <div class="invalid-feedback">
             {% for error in form.title.errors %}{{ error }}{% endfor %}
