@@ -1,16 +1,13 @@
 """Users views"""
 
 
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, FormView, UpdateView
 
 from .forms import ProfileForm, SignupForm
-from .models import Profile
 from posts.models import Post
 
 
@@ -26,51 +23,22 @@ class SignupView(FormView):
         username = form['username'].value()
         password = form['password'].value()
 
-        user = authenticate(
-            self.request, username=username, password=password)
+        user = authenticate(self.request, username=username, password=password)
 
         login(self.request, user)
 
         return super().form_valid(form)
 
 
-def login_view(request):
+class LoginView(auth_views.LoginView):
     """Login view"""
-    if request.user.is_authenticated:
-        return redirect('posts:feed')
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return redirect('posts:feed')
-        else:
-            return render(request, 'users/login.html', {'error': 'Invalid username or password'})
-
-    return render(request, 'users/login.html')
+    template_name = 'users/login.html'
+    redirect_authenticated_user = True
 
 
-@login_required
-def logout_view(request):
+class LogoutView(auth_views.LogoutView):
     """Logout a user"""
-    logout(request)
-    return redirect('users:login')
-
-
-class UpdateProfileView(LoginRequiredMixin, UpdateView):
-    """Update profile view"""
-    template_name = 'users/update_profile.html'
-    form_class = ProfileForm
-
-    def get_object(self):
-        """Return to user's profile"""
-        return self.request.user.profile
-
-    def get_success_url(self):
-        username = self.request.user.username
-        return reverse('users:user_detail', kwargs={'username': username,})
+    pass
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -89,3 +57,17 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context['posts'] = Post.objects.filter(user=user).order_by('-created')
 
         return context
+
+
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    """Update profile view"""
+    template_name = 'users/update_profile.html'
+    form_class = ProfileForm
+
+    def get_object(self):
+        """Return to user's profile"""
+        return self.request.user.profile
+
+    def get_success_url(self):
+        username = self.request.user.username
+        return reverse('users:user_detail', kwargs={'username': username,})
