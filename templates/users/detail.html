@@ -9,6 +9,18 @@
 <div class="container mb-5" style="margin-top: 6em">
   <div class="row">
 
+    {% if messages %}
+      <ul class="messages list-unstyled">
+      {% for message in messages %}
+        <li class="alert alert-success">
+        {% if message.tags %}
+          {{ message }}
+        {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+
     <div class="col-sm-4 d-flex justify-content-center">
       <img
         src="

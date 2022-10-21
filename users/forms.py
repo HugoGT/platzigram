@@ -7,13 +7,12 @@ from django.contrib.auth.models import User
 from .models import Profile
 
 
-class ProfileForm(forms.Form):
+class ProfileForm(forms.ModelForm):
     """Profile form"""
 
-    picture = forms.ImageField(required=False)
-    website = forms.URLField(max_length=160, required=False)
-    biography = forms.CharField(max_length=600, required=True)
-    phone_number = forms.CharField(max_length=16, required=False)
+    class Meta:
+        model = Profile
+        fields = ('website', 'biography', 'phone_number', 'picture')
 
 
 class SignupForm(forms.Form):

@@ -17,18 +17,20 @@
 
         {# Image field #}
         <div class="row mt-2">
-          <div class="col-2">
-            {% if profile.picture %}
-              <img src="{{ profile.picture.url }}" class="rounded-circle sm-user-image"/>
-            {% else%}
-              <img src="{% static 'img/default-profile.png' %}" class="rounded-circle sm-user-image"/>
-            {% endif %}
-          </div>
-          <div class="col-10">
-            <h5>{{user.get_full_name}} | @{{ user.username }}</h5>
-            <p>
-              <input type="file" name="picture"/>
-            </p>
+          <div class="d-flex align-items-start">
+            <div>
+              {% if profile.picture %}
+                <img src="{{ profile.picture.url }}" class="rounded-circle sm-user-image"/>
+              {% else%}
+                <img src="{% static 'img/default-profile.png' %}" class="rounded-circle sm-user-image"/>
+              {% endif %}
+            </div>
+            <div class="ms-3">
+              <h5>{{user.get_full_name}} | @{{ user.username }}</h5>
+              <p>
+                <input type="file" name="picture"/>
+              </p>
+            </div>
           </div>
         </div>
 

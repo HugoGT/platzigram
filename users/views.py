@@ -1,55 +1,37 @@
 """Users views"""
 
 
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.db.utils import IntegrityError
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic import DetailView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DetailView, FormView, UpdateView
 
 from .forms import ProfileForm, SignupForm
+from .models import Profile
 from posts.models import Post
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-    """User detail view"""
+class SignupView(FormView):
+    """Sign up view"""
+    template_name = 'users/signup.html'
+    form_class = SignupForm
+    success_url = reverse_lazy('users:update_profile')
 
-    template_name = 'users/detail.html'
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
-    queryset = User.objects.all()
-    context_object_name = 'user'
+    def form_valid(self, form):
+        form.save()
 
-    def get_context_data(self, **kwargs):
-        """Add user's posts to context"""
-        context = super().get_context_data(**kwargs)
-        user = self.get_object()
-        context['posts'] = Post.objects.filter(user=user).order_by('-created')
+        username = form['username'].value()
+        password = form['password'].value()
 
-        return context
+        user = authenticate(
+            self.request, username=username, password=password)
 
+        login(self.request, user)
 
-def signup_view(request):
-    """Sign up view."""
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('users:login')
-    else:
-        form = SignupForm()
-
-    return render(
-        request=request,
-        template_name='users/signup.html',
-        context={
-            'form': form,
-        }
-    )
+        return super().form_valid(form)
 
 
 def login_view(request):
@@ -77,40 +59,33 @@ def logout_view(request):
     return redirect('users:login')
 
 
-@login_required
-def update_profile(request):
-    """Update a user's profile view"""
-    profile = request.user.profile
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    """Update profile view"""
+    template_name = 'users/update_profile.html'
+    form_class = ProfileForm
 
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            data = form.cleaned_data
+    def get_object(self):
+        """Return to user's profile"""
+        return self.request.user.profile
 
-            try:
-                profile.phone_number = data['phone_number']
-                profile.website = data['website']
-                profile.biography = data['biography']
-                profile.picture = data['picture']
-                profile.save()
+    def get_success_url(self):
+        username = self.request.user.username
+        return reverse('users:user_detail', kwargs={'username': username,})
 
-            except IntegrityError:
-                return render(request, 'users/update_profile.html', {'error': 'This phone number is already in use'})
 
-            messages.success(request, 'Your profile has been updated!')
+class UserDetailView(LoginRequiredMixin, DetailView):
+    """User detail view"""
 
-            url = reverse('users:user_detail', kwargs={'username': request.user.username,})
-            return redirect(url)
+    template_name = 'users/detail.html'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    queryset = User.objects.all()
+    context_object_name = 'user'
 
-    else:
-        form = ProfileForm()
+    def get_context_data(self, **kwargs):
+        """Add user's posts to context"""
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['posts'] = Post.objects.filter(user=user).order_by('-created')
 
-    return render(
-        request=request,
-        template_name='users/update_profile.html',
-        context={
-            'profile':profile,
-            'user': request.user,
-            'form': form,
-        }
-    )
+        return context

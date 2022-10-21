@@ -14,8 +14,8 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    website = models.URLField(max_length=200, blank=True)
-    biography = models.TextField(max_length=2000, blank=True)
+    website = models.URLField(max_length=160, blank=True)
+    biography = models.TextField(max_length=600, blank=True)
     phone_number = models.CharField(unique=True, max_length=16, blank=True, null=True)
 
     picture = models.ImageField(upload_to='users/pictures', blank=True, null=True)
