@@ -13,3 +13,4 @@ class PostForm(forms.ModelForm):
         """Form settings"""
         model = Post
         fields = ('user', 'profile', 'title', 'photo')
+        exclude = ('user', 'profile')

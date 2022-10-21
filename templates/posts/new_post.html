@@ -14,17 +14,13 @@
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <input type="hidden" name="user" value="{{ user.pk }}" />
-        <input type="hidden" name="profile" value="{{ profile.pk }}" />
-
         {# Description field #}
         <div class="form-group mb-2">
-          <input
+          <textarea
             class="form-control {% if form.title.errors %}is-invalid{% endif %}"
             type="text"
             name="title"
-            placeholder="Description"
-          />
+            placeholder="Description"></textarea>
           <div class="invalid-feedback">
             {% for error in form.title.errors %}{{ error }}{% endfor %}
           </div>

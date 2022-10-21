@@ -2,10 +2,10 @@
 
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import PostForm
 from .models import Post
@@ -21,7 +21,7 @@ class PostsFeedView(LoginRequiredMixin, ListView):
     context_object_name = 'posts'
 
 
-class PostDetailView(LoginRequiredMixin, DetailView):
+class PostsDetailView(LoginRequiredMixin, DetailView):
     """Post detail view"""
 
     template_name = 'posts/detail.html'
@@ -30,27 +30,14 @@ class PostDetailView(LoginRequiredMixin, DetailView):
     queryset = Post.objects.all()
 
 
-@login_required
-def create_post(request):
+class PostsCreateView(LoginRequiredMixin, CreateView):
     """Create a new post"""
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your post has been created!')
+    template_name = 'posts/new_post.html'
+    form_class = PostForm
+    success_url = reverse_lazy('posts:feed')
 
-            return redirect('posts:feed')
-
-    else:
-        form = PostForm()
-
-    return render(
-        request=request,
-        template_name='posts/new_post.html',
-        context={
-            'form': form,
-            'user': request.user,
-            'profile': request.user.profile,
-        }
-    )
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.profile = self.request.user.profile
+        return super().form_valid(form)
