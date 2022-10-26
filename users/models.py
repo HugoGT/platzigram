@@ -18,7 +18,7 @@ class Profile(models.Model):
     biography = models.TextField(max_length=600, blank=True)
     phone_number = models.CharField(unique=True, max_length=16, blank=True, null=True)
 
-    picture = models.ImageField(upload_to='users/pictures', blank=True, null=True)
+    picture = models.ImageField(upload_to='users', blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

@@ -13,15 +13,23 @@ class Post(models.Model):
     profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE)
 
     title = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to='posts/pictures')
-    likes = models.IntegerField(default=0)
+    photo = models.ImageField(upload_to='posts')
+    likes = models.ManyToManyField(User, related_name='post_likes')
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        """Return title and username"""
+        """Returns the title and username"""
         return f'{self.title} by @{self.user.username}'
+
+    def count_likes(self):
+        """Returns the amount of likes of the post"""
+        return self.likes.count()
+
+    def get_absolute_url(self):
+        """Returns the url of the post"""
+        return reverse('posts:post_detail', kwargs={'id': self.post.id})
 
 
 class Comment(models.Model):
@@ -36,8 +44,9 @@ class Comment(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        """Return comment and username"""
+        """Returns the comment"""
         return f'{self.comment}'
 
     def get_absolute_url(self):
+        """Returns the url of the post"""
         return reverse('posts:post_detail', kwargs={'id': self.post.id})

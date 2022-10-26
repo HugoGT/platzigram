@@ -86,8 +86,11 @@
 
       <hr>
       <div class="post-detail d-block">
-        <form method="PATCH" class="d-inline-block" action="{% url 'posts:post_detail' post.id %}">
-          <i class="far fa-heart" type="submit" style="color: #000; font-size: 20px"></i>
+        <form method="POST" class="d-inline-block" action="{% url 'posts:post_detail' post.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-light p-0">
+            <i class="far fa-heart" style="color: #000; font-size: 20px"></i>
+          </button>
         </form>
         <p class="m-0 d-inline-block">
           {{ post.likes }} - {{ post.created }}

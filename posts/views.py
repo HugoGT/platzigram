@@ -2,6 +2,7 @@
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
@@ -40,11 +41,6 @@ class PostsDetailView(LoginRequiredMixin, DetailView):
     slug_url_kwarg = 'id'
     queryset = Post.objects.all()
 
-    def patch(self, request, id):
-        post = self.get_object()
-        post.likes + 1
-        post.save()
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
@@ -59,5 +55,14 @@ class PostCreateComment(LoginRequiredMixin, CreateView):
     form_class = CommentForm
 
     def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class PostLike(LoginRequiredMixin, CreateView):
+
+    def form_valid(self, form):
+        post = get_object_or_404(Post, id=id)
+        post.likes.add(self.request.user.id)
         form.instance.user = self.request.user
         return super().form_valid(form)
