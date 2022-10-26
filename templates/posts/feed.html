@@ -20,8 +20,8 @@
 
     {% for post in posts %}
 
-    <div class="col-sm-12 col-md-8 mt-5 offset-md-2 post-container">
-      <div class="media container py-3 ps-0">
+    <div class="col-sm-12 col-md-8 mt-2 offset-md-2 post-container">
+      <div class="media-container py-3 ps-0">
         <a href="{% url 'users:user_detail' post.user.username %}" class="d-flex align-items-center">
           <img
           class="rounded-circle"
@@ -39,14 +39,14 @@
           </p>
         </a>
       </div>
-      <a href="{% url 'posts:post_detail' post.id %}">
+      <a class="feed-img" href="{% url 'posts:post_detail' post.id %}">
         <img
         style="width: 100%"
         src="{{ post.photo.url }}"
         alt="{{ post.title }}"
         />
       </a>
-      <h6 class="m-3 ms-0">{{ post.title }}</h6>
+      <h5 class="m-3 ms-0">{{ post.title }}</h5>
       <p class="m-3 ms-0">
         <i class="far fa-heart" style="color: #000; font-size: 20px"></i>
         {{ post.likes }} - {{ post.created }}

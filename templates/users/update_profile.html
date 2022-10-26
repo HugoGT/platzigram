@@ -92,8 +92,7 @@
             class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}"
             type="text"
             name="phone_number"
-            placeholder="+1 87654321"
-            value="{% if form.errors %}{{ form.phone_number.value }}{% else %}{{ profile.phone_number }}{% endif %}"
+            value="{% if form.errors %}{{ form.phone_number.value }}{% elif profile.phone_number %}{{ profile.phone_number }}{% else %}{{ profile.id }}{% endif %}"
           />
           <div class="invalid-feedback">
             {% for error in form.phone_number.errors %}

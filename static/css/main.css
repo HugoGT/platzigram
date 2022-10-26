@@ -25,6 +25,14 @@ body {
   border: 1px solid #e6e6e6;
   border-radius: 4px;
 }
+.post-container img {
+  max-height: 768px;
+  object-fit: contain;
+}
+.media-container img {
+  width: 40px;
+  object-fit: cover;
+}
 .comment-user-container {
   margin-top: 4px;
   display: flex;
