@@ -13,11 +13,11 @@
       <img
         src="{{ post.photo.url }}"
         alt="{{ post.title }}"
-        class="post-detail-image"
+        class="w-100"
       />
     </div>
 
-    <div class="col-12 col-lg-6 media container p-3 ps-0 position-relative">
+    <div class="col-12 col-lg-6 media container p-3 ps-lg-0 position-relative">
       <div class="d-block">
         <a
         href="{% url 'users:user_detail' post.user.username %}"
@@ -28,26 +28,46 @@
           height="40"
           src="
           {% if post.user.profile.picture %}
-          {{ post.user.profile.picture.url }}
+            {{ post.user.profile.picture.url }}
           {% else %}
-          {% static 'img/default-profile.png' %}
+            {% static 'img/default-profile.png' %}
           {% endif %}"
           alt="{{ post.user.get_full_name }}"
           />
           <p class="m-0 username">{{ post.user.username }}</p>
         </a>
       </div>
+
+      <div class="comments d-block">
+
+        <h4 class="sticky-top m-0">{{ post.title }}</h4>
+        {% for comment in comments %}
+          <p class="form-control">{{ comment }}</p>
+        {% endfor %}
+
+        <form class="sticky-bottom" method="POST" action="{% url 'posts:create_comment' %}">
+
+          {% csrf_token %}
+
+          <input type="hidden" name="post" id="post" value= "{{ post.id }}">
+          <textarea
+            class="form-control {% if form.title.errors %}is-invalid{% endif %}"
+            type="text"
+            name="comment"
+            id="comment"
+          ></textarea>
+          <button type="submit" class="btn btn-primary w-100 mt-2">Comment</button>
+
+        </form>
+      </div>
+
       <hr>
-      <h4>
-        {{ post.title }}
-      </h4>
-      <hr>
-      <h6>Comments {{ post.comments }}</h6>
-      <div class="post-detail mb-4">
-        <hr>
-        <p class="m-0">
-          <i class="far fa-heart me-1" style="color: #000; font-size: 20px"></i>
-          30 likes - {{ post.created }}
+      <div class="post-detail d-block">
+        <form method="PATCH" class="d-inline-block" action="{% url 'posts:post_detail' post.id %}">
+          <i class="far fa-heart" type="submit" style="color: #000; font-size: 20px"></i>
+        </form>
+        <p class="m-0 d-inline-block">
+          {{ post.likes }} - {{ post.created }}
         </p>
       </div>
     </div>

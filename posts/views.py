@@ -1,14 +1,12 @@
 """Posts views"""
 
 
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
-from .forms import PostForm
-from .models import Post
+from .forms import PostForm, CommentForm
+from .models import Post, Comment
 
 
 class PostsFeedView(LoginRequiredMixin, ListView):
@@ -21,15 +19,6 @@ class PostsFeedView(LoginRequiredMixin, ListView):
     context_object_name = 'posts'
 
 
-class PostsDetailView(LoginRequiredMixin, DetailView):
-    """Post detail view"""
-
-    template_name = 'posts/detail.html'
-    slug_field = 'id'
-    slug_url_kwarg = 'id'
-    queryset = Post.objects.all()
-
-
 class PostsCreateView(LoginRequiredMixin, CreateView):
     """Create a new post"""
 
@@ -40,4 +29,35 @@ class PostsCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.profile = self.request.user.profile
+        return super().form_valid(form)
+
+
+class PostsDetailView(LoginRequiredMixin, DetailView):
+    """Post detail view"""
+
+    template_name = 'posts/detail.html'
+    slug_field = 'id'
+    slug_url_kwarg = 'id'
+    queryset = Post.objects.all()
+
+    def patch(self, request, id):
+        post = self.get_object()
+        post.likes + 1
+        post.save()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        context["comments"] = Comment.objects.filter(post=post).order_by('-created')
+
+        return context
+
+
+class PostCreateComment(LoginRequiredMixin, CreateView):
+    """Create a comment in a post"""
+
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
         return super().form_valid(form)

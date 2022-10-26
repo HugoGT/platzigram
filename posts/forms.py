@@ -3,7 +3,7 @@
 
 from django import forms
 
-from .models import Post
+from .models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -14,3 +14,13 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('user', 'profile', 'title', 'photo')
         exclude = ('user', 'profile')
+
+
+class CommentForm(forms.ModelForm):
+    """Comment model form"""
+
+    class Meta:
+        """Comment Settings"""
+        model = Comment
+        fields = ('user', 'post', 'comment')
+        exclude = ('user',)
