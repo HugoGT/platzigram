@@ -6,7 +6,7 @@
 {% endblock head_content %}
 
 {% block container %}
-<div class="container my-5">
+<div class="container">
 
   <div class="row post-container">
     <div class="col-12 col-lg-6 p-3">
@@ -18,7 +18,7 @@
     </div>
 
     <div class="col-12 col-lg-6 media container p-3 ps-lg-0 position-relative">
-      <div class="d-block">
+      <div class="d-block user-container">
         <a
         href="{% url 'users:user_detail' post.user.username %}"
         class="d-flex align-items-center"
@@ -37,12 +37,33 @@
           <p class="m-0 username">{{ post.user.username }}</p>
         </a>
       </div>
-
+      <hr>
       <div class="comments d-block">
 
         <h4 class="sticky-top m-0">{{ post.title }}</h4>
         {% for comment in comments %}
-          <p class="form-control">{{ comment }}</p>
+        <div class="form-control mb-2">
+          <p class="m-0">{{ comment }}</p>
+          <div class="comment-user-container">
+            <img
+              class="rounded-circle d-inline-block"
+              height="24"
+              src="
+              {% if comment.user.profile.picture %}
+                {{ comment.user.profile.picture.url }}
+              {% else %}
+                {% static 'img/default-profile.png' %}
+              {% endif %}"
+              alt="{{ comment.user.get_full_name }}"
+              />
+              <p class="d-inline-block">
+                <small>
+                {{ comment.user.username }}
+                </small>
+              </p>
+            </a>
+          </div>
+          </div>
         {% endfor %}
 
         <form class="sticky-bottom" method="POST" action="{% url 'posts:create_comment' %}">
@@ -55,6 +76,8 @@
             type="text"
             name="comment"
             id="comment"
+            rows="1"
+            placeholder="Escribe un comentario"
           ></textarea>
           <button type="submit" class="btn btn-primary w-100 mt-2">Comment</button>
 

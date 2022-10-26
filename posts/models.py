@@ -37,7 +37,7 @@ class Comment(models.Model):
 
     def __str__(self):
         """Return comment and username"""
-        return f'{self.comment}   -{self.user.username}'
+        return f'{self.comment}'
 
     def get_absolute_url(self):
         return reverse('posts:post_detail', kwargs={'id': self.post.id})

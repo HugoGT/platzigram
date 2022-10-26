@@ -17,15 +17,30 @@ body {
   background: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.0975);
 }
+.user-container {
+  margin-bottom: -4px;
+}
 .post-container {
   background: #fff;
   border: 1px solid #e6e6e6;
-  border-radius: 3px;
+  border-radius: 4px;
+}
+.comment-user-container {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+}
+.comment-user-container p {
+  margin: 0 4px;
+}
+.comment-user-container img {
+  width: 24px;
+  object-fit: cover;
 }
 .comments {
-  margin-top: 12px;
-  max-height: 52vh;
-  overflow: scroll;
+  margin-top: -6px;
+  max-height: 56vh;
+  overflow: auto;
   overflow-x: hidden;
 }
 .comments h4 {
@@ -68,7 +83,7 @@ a:link {
 }
 .username {
   color: #262626;
-  font-weight: 600;
+  font-weight: 700;
   padding-left: 8px;
 }
 .errorlist {
