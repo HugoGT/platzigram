@@ -11,5 +11,5 @@ urlpatterns = [
     path('new-post', views.PostsCreateView.as_view(), name='new_post'),
     path('post/<int:id>', views.PostsDetailView.as_view(), name='post_detail'),
     path('post/comment', views.PostCreateComment.as_view(), name='create_comment'),
-    path('post/like/<int:id>', views.PostLike.as_view(), name='like')
+    path('post/like/<int:id>', views.like_post, name='like')
 ]

@@ -58,6 +58,10 @@ body {
 .comments form {
   background: white;
 }
+.btn-like {
+  background: white;
+  border: 0;
+}
 .nav-icon a {
   color: #262626;
   font-size: 1.3em;
