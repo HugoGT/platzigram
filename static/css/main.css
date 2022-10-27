@@ -1,21 +1,24 @@
 html,
 body {
-  background: #fafafa;
+  background: #eeeeee;
   height: 100%;
   width: 100%;
   font-family: "Roboto", sans-serif;
 }
+img {
+  border-radius: 4px;
+}
 #auth-container {
   background: #fff;
-  border: 1px solid #e6e6e6;
-  border-radius: 1px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
 }
 #base-container {
-  margin-top: 80px;
+  margin-top: 72px;
 }
 #main-navbar {
   background: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.0975);
+  border-bottom: 1px solid #dddddd;
 }
 .user-container {
   margin-bottom: -4px;
@@ -52,14 +55,14 @@ body {
   overflow-x: hidden;
 }
 .comments h4 {
-  background: white;
+  background: #fff;
   padding-bottom: 6px;
 }
 .comments form {
-  background: white;
+  background: #fff;
 }
 .btn-like {
-  background: white;
+  background: #fff;
   border: 0;
 }
 .nav-icon a {
@@ -71,7 +74,7 @@ body {
   font-weight: 100;
 }
 .nav-icon a:hover {
-  color: #1d5e72;
+  color: #1f6d84;
 }
 .user-image {
   height: 150px;
@@ -108,8 +111,8 @@ a:link {
 }
 #profile-box {
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.0975);
-  border-radius: 1px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
   margin-top: 4em;
 }
 #user-posts #post-thumb {
