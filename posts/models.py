@@ -27,10 +27,6 @@ class Post(models.Model):
         """Returns the amount of likes of the post"""
         return self.likes.count()
 
-    def get_absolute_url(self):
-        """Returns the url of the post"""
-        return reverse('posts:post_detail', kwargs={'id': self.post.id})
-
 
 class Comment(models.Model):
     """Comments model"""
