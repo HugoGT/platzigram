@@ -55,10 +55,10 @@
       </h2>
       <div class="row mt-2" style="font-size: 1.2em">
         <div class="col-sm-4">
-          <b>{{ user.profile.posts.count }}</b> posts
+          <b>{{ count_posts }}</b> post{{ count_posts|pluralize }}
         </div>
         <div class="col-sm-4">
-          <b>{{ user.profile.followers.count }}</b> followers
+          <b>{{ user.profile.followers.count }}</b> follower{{ user.profile.followers.count|pluralize }}
         </div>
         <div class="col-sm-4">
           <b>{{ user.profile.following.count }}</b> following

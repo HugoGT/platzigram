@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% load static %}
 
 {% block container %}
@@ -59,7 +60,7 @@
           </button>
         </form>
         <p class="m-0 d-inline-block">
-          {{ post.count_likes }} - {{ post.created }}
+          {{ post.count_likes }} - {{ post.created|naturaltime }}
         </p>
       </div>
     </div>
