@@ -1,13 +1,17 @@
 """Users views"""
 
 
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, views as auth_views
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, FormView, UpdateView
 
 from .forms import ProfileForm, SignupForm
+from .models import Relationship
 from posts.models import Post
 
 
@@ -71,3 +75,25 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         username = self.request.user.username
         return reverse('users:user_detail', kwargs={'username': username,})
+
+
+@login_required
+def follow(request, username):
+    current_user = request.user
+    to_user = get_object_or_404(User,username=username)
+    relation = Relationship(from_user=current_user, to_user=to_user)
+    relation.save()
+    messages.success(request, f'You are following {username}')
+
+    return redirect(reverse('users:user_detail', kwargs={'username':username,}))
+
+
+@login_required
+def unfollow(request, username):
+    current_user = request.user
+    to_user = get_object_or_404(User,username=username)
+    relation = Relationship.objects.filter(from_user=current_user.id, to_user= to_user.id).get()
+    relation.delete()
+    messages.success(request, f'You unfollow {username}')
+
+    return redirect(reverse('users:user_detail', kwargs={'username':username,}))

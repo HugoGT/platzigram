@@ -6,13 +6,13 @@
 {% endblock %}
 
 {% block container %}
-<div class="container mb-5" style="margin-top: 6em">
+<div class="container mb-5" style="margin-top: 5.4em">
   <div class="row">
 
     {% if messages %}
-      <ul class="messages list-unstyled">
+      <ul class="messages list-unstyled mb-4">
       {% for message in messages %}
-        <li class="alert alert-success">
+        <li class="alert alert-success m-0">
         {% if message.tags %}
           {{ message }}
         {% endif %}
@@ -42,25 +42,33 @@
             Edit profile
           </a>
         {% else %}
-          <a href="" class="ms-2 btn btn-sm btn-primary">
-            Follow
-          </a>
+          {% if user not in request.user.profile.following %}
+            <a href="{% url 'users:follow' user %}" class="ms-2 btn btn-sm btn-primary">
+              Follow
+            </a>
+          {% else %}
+            <a href="{% url 'users:unfollow' user %}" class="ms-2 btn btn-sm btn-info">
+              Unollow
+            </a>
+          {% endif %}
         {% endif %}
       </h2>
       <div class="row mt-2" style="font-size: 1.2em">
         <div class="col-sm-4">
-          <b>{{ user.profile.posts_count }}785</b> posts
+          <b>{{ user.profile.posts.count }}</b> posts
         </div>
         <div class="col-sm-4">
-          <b>{{ user.profile.followers }}1,401</b> followers
+          <b>{{ user.profile.followers.count }}</b> followers
         </div>
         <div class="col-sm-4">
-          <b>{{ user.profile.following }}491</b> following
+          <b>{{ user.profile.following.count }}</b> following
         </div>
       </div>
       <div class="row mt-4">
         <div class="col-sm-12">
+          <p>{{ user.profile.website }}</p>
           <p>{{ user.profile.biography }}</p>
+          <p>{{ user.profile.phone_number }}</p>
         </div>
       </div>
     </div>
