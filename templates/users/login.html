@@ -3,55 +3,43 @@
 
 {% block container %}
 
-
-<div class="row justify-content-center align-middle">
-  <div class="col-sm-12 col-md-6 col-lg-4 p-5" id="auth-container">
-
-    <img
+<div class="auth-container">
+  <img
+    class="auth-img"
     src="{% static 'img/platzigram.png' %}"
     alt="platzigram image"
-    class="img-fluid rounded mx-auto d-block pb-4"
-    style="max-width: 60%"
+  />
+
+  <form method="POST" action="{% url 'users:login' %}">
+    {% csrf_token %}
+
+    <input
+      placeholder="Username"
+      type="username"
+      class="auth-input"
+      id="InputUsername"
+      aria-describedby="emailHelp"
+      name="username"
+    />
+
+    <input
+      placeholder="Password"
+      type="password"
+      class="auth-input"
+      id="InputPassword"
+      name="password"
     />
 
     {% if form.errors %}
-      <p class="alert alert-danger">Your username and password didn't match, please try again</p>
+      <p class="error">Your username or password didn't match, please try again</p>
     {% endif%}
 
-    <form method="POST" action="{% url 'users:login' %}">
-      {% csrf_token %}
-
-      <div class="mb-3">
-        <input
-          placeholder="Username"
-          type="username"
-          class="form-control"
-          id="InputUsername"
-          aria-describedby="emailHelp"
-          name="username"
-        />
-      </div>
-
-      <div class="mb-3">
-        <input
-          placeholder="Password"
-          type="password"
-          class="form-control"
-          id="InputPassword"
-          name="password"
-        />
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100">Sign in</button>
-    </form>
-
-    <hr>
-    <p class="text-muted">Don't have an account yet?, Create one</p>
-    <a href="{% url 'users:signup' %}">
-      <button class="btn btn-success w-100">Sign up</button>
-    </a>
-
-  </div>
+    <button type="submit" class="button auth-btn">Sign in</button>
+  </form>
+  <p class="auth-p">Don't have an account yet?, Create one</p>
+  <a href="{% url 'users:signup' %}">
+    <button class="auth-btn auth-btn-up">Sign up</button>
+  </a>
 </div>
 
 {% endblock container %}

@@ -7,102 +7,93 @@
 {% endblock head_content %}
 
 {% block container %}
-<div class="container">
 
-  <div class="row post-container">
-    <div class="col-12 col-lg-6 p-3">
-      <img
-        src="{{ post.photo.url }}"
-        alt="{{ post.title }}"
-        class="w-100"
-      />
+<div class="post">
+  <div class="post-detail">
+    <div class="post_img">
+      <img src="{{ post.photo.url }}" alt="{{ post.title }}" />
     </div>
 
-    <div class="col-12 col-lg-6 media container p-3 ps-lg-0 position-relative">
-      <div class="d-block user-container media-container">
-        <a
-        href="{% url 'users:user_detail' post.user.username %}"
-        class="d-flex align-items-center"
-        >
-        <img
-          class="rounded-circle"
-          height="40"
-          src="
+    <div class="post-detail_interaction">
+      <div class="post_user">
+        <a href="{% url 'users:user_detail' post.user.username %}">
+          <img
+            class="user-img"
+            src="
           {% if post.user.profile.picture %}
             {{ post.user.profile.picture.url }}
           {% else %}
             {% static 'img/default-profile.png' %}
           {% endif %}"
-          alt="{{ post.user.get_full_name }}"
+            alt="{{ post.user.get_full_name }}"
           />
-          <p class="m-0 username">{{ post.user.username }}</p>
+          <p class="post_username">{{ post.user.username }}</p>
         </a>
       </div>
-      <hr>
-      <div class="comments d-block">
 
-        <h4 class="sticky-top m-0">{{ post.title }}</h4>
+      <p class="post_title">{{ post.title }}</p>
+
+      <div class="comments">
         {% for comment in comments %}
-        <div class="form-control mb-2">
-          <p class="m-0">{{ comment }}</p>
-          <div class="comment-user-container">
+        <div class="comment">
+          <p>{{ comment }}</p>
+          <a
+            class="comment-user-container"
+            href="{% url 'users:user_detail' comment.user.username %}"
+          >
             <img
-              class="rounded-circle d-inline-block"
-              height="24"
+              class="sm-user-img"
               src="
-              {% if comment.user.profile.picture %}
-                {{ comment.user.profile.picture.url }}
-              {% else %}
-                {% static 'img/default-profile.png' %}
-              {% endif %}"
+                {% if comment.user.profile.picture %}
+                  {{ comment.user.profile.picture.url }}
+                {% else %}
+                  {% static 'img/default-profile.png' %}
+                {% endif %}"
               alt="{{ comment.user.get_full_name }}"
-              />
-              <p class="d-inline-block">
-                <small>
-                {{ comment.user.username }}
-                </small>
-              </p>
-            </a>
-          </div>
-          </div>
+            />
+            <p>{{ comment.user.username }}</p>
+          </a>
+        </div>
         {% endfor %}
 
-        <form class="sticky-bottom" method="POST" action="{% url 'posts:create_comment' %}">
-
+        <form
+          class="write-comment"
+          method="POST"
+          action="{% url 'posts:create_comment' %}"
+        >
           {% csrf_token %}
-
-          <input type="hidden" name="post" id="post" value= "{{ post.id }}">
+          <input type="hidden" name="post" id="post" value="{{ post.id }}" />
           <textarea
-            class="form-control {% if form.title.errors %}is-invalid{% endif %}"
+            class="write-comment_form {% if form.title.errors %}is-invalid{% endif %}"
             type="text"
             name="comment"
             id="comment"
-            rows="1"
-            placeholder="Escribe un comentario"
+            rows="2"
+            placeholder="Write a comment"
+            required
           ></textarea>
-          <button type="submit" class="btn btn-primary w-100 mt-2">Comment</button>
-
+          <button type="submit" class="button">Comment</button>
         </form>
       </div>
 
-      <hr>
-      <div class="post-detail d-block">
-        <form method="POST" class="d-inline-block" action="{% url 'posts:like' post.id %}">
+      <div class="post_info">
+        <form method="POST" class="" action="{% url 'posts:like' post.id %}">
           {% csrf_token %}
-          <button type="submit" class="btn btn-outline-light btn-like p-0">
+          <button type="submit" class="post_info-button">
             {% if user in post.likes.all %}
-              <i class="far fa-heart" style="color: #c90e0e; font-size: 20px"></i>
+              <i class="far fa-heart liked"></i>
             {% else %}
-              <i class="far fa-heart" style="color: #000; font-size: 20px"></i>
+              <i class="far fa-heart"></i>
             {% endif %}
           </button>
         </form>
-        <p class="m-0 d-inline-block">
-          {{ post.count_likes }} - {{ post.created|naturaltime }}
+        <p class="">
+          {{ post.count_likes }} like{{post.count_likes|pluralize }} - {{ post.created|naturaltime }}
         </p>
       </div>
     </div>
+
   </div>
 </div>
 
-{% endblock container%}
+{% endblock container %}

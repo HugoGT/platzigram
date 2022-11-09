@@ -7,108 +7,95 @@
 
 {% block container %}
 
-<div class="container">
+<div class="auth-container">
+  <form
+    method="POST"
+    enctype="multipart/form-data"
+    action="{% url 'users:update_profile' %}"
+  >
 
-  <div class="row justify-content-md-center">
-    <div class="col-6 p-4 mt-4" id="profile-box">
+    {% csrf_token %}
 
-      <form method="POST" action="{% url 'users:update_profile' %}" enctype="multipart/form-data">
-        {% csrf_token %}
+    <div class="auth-update-pic">
+      {% if profile.picture %}
+        <img src="{{ profile.picture.url }}" class="user-img" />
+      {% else%}
+        <img src="{% static 'img/default-profile.png' %}" class="user-img" />
+      {% endif %}
+      <div>
+        <h5>{{user.get_full_name}} | @{{ user.username }}</h5>
+        <input type="file" name="picture" />
+      </div>
+    </div>
+    {% if form.picture.errors %}
+      <ul class="errorlist">
+        {% for error in form.picture.errors %}
+          <li>
+            {{ error }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 
-        {# Image field #}
-        <div class="row mt-2">
-          <div class="d-flex align-items-start">
-            <div>
-              {% if profile.picture %}
-                <img src="{{ profile.picture.url }}" class="rounded-circle sm-user-image"/>
-              {% else%}
-                <img src="{% static 'img/default-profile.png' %}" class="rounded-circle sm-user-image"/>
-              {% endif %}
-            </div>
-            <div class="ms-3">
-              <h5>{{user.get_full_name}} | @{{ user.username }}</h5>
-              <p>
-                <input type="file" name="picture"/>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {% if error %}
-          <p class="alert alert-danger">{{ error }}</p>
-        {% endif%}
-
-        {% if messages %}
-          <ul class="messages list-unstyled">
-          {% for message in messages %}
-            <li class="alert alert-success">
-            {% if message.tags %}
-              {{ message }}
-            {% endif %}
+    <div class="auth-bio-fields">
+      <label>Website</label>
+      <input
+        class="auth-input {% if form.website.errors %}is-invalid{% endif %}"
+        type="text"
+        name="website"
+        placeholder="www.example.com"
+        value="{% if form.errors %}{{ form.website.value }}{% else %}{{ profile.website }}{% endif %}"
+      />
+      {% if form.website.errors %}
+        <ul class="errorlist">
+          {% for error in form.website.errors %}
+            <li>
+              {{ error }}
             </li>
           {% endfor %}
-          </ul>
-        {% endif %}
+        </ul>
+      {% endif %}
 
-        <hr />
-
-        {# Website field #}
-        <div class="form-group">
-          <label>Website</label>
-          <input
-            class="form-control {% if form.website.errors %}is-invalid{% endif %}"
-            type="url"
-            name="website"
-            placeholder="www.example.com"
-            value="{% if form.errors %}{{ form.website.value }}{% else %}{{ profile.website }}{% endif %}"
-          />
-          <div class="invalid-feedback">
-            {% for error in form.website.errors %}
+      <label>Biography</label>
+      <textarea
+        required
+        class="auth-input {% if form.biography.errors %}is-invalid{% endif %}"
+        name="biography"
+        placeholder="Tell us about you"
+        rows="2"
+      >{% if form.errors %}{{ form.biography.value }}{% else %}{{ profile.biography }}{% endif %}</textarea
+      >
+      {% if form.biography.errors %}
+        <ul class="errorlist">
+          {% for error in form.biography.errors %}
+            <li>
               {{ error }}
-            {% endfor %}
-          </div>
-        </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 
-        {# Biography field #}
-        <div class="form-group">
-          <label>Biography</label>
-          <textarea
-            required
-            class="form-control {% if form.biography.errors %}is-invalid{% endif %}"
-            name="biography"
-            placeholder="Tell us about you"
-          >{% if form.errors %}{{ form.biography.value }}{% else %}{{ profile.biography }}{% endif %}</textarea>
-          <div class="invalid-feedback">
-            {% for error in form.biography.errors %}
+      <label>Phone number</label>
+      <input
+        class="auth-input {% if form.phone_number.errors %}is-invalid{% endif %}"
+        type="text"
+        name="phone_number"
+        value="{% if form.errors %}{{ form.phone_number.value }}{% elif profile.phone_number %}{{ profile.phone_number }}{% else %}{{ profile.id }}{% endif %}"
+      />
+      {% if form.phone_number.errors %}
+        <ul class="errorlist">
+          {% for error in form.phone_number.errors %}
+            <li>
               {{ error }}
-            {% endfor %}
-          </div>
-        </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
 
-        {# Phone number field #}
-        <div class="form-group">
-          <label>Phone number</label>
-          <input
-            class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}"
-            type="text"
-            name="phone_number"
-            value="{% if form.errors %}{{ form.phone_number.value }}{% elif profile.phone_number %}{{ profile.phone_number }}{% else %}{{ profile.id }}{% endif %}"
-          />
-          <div class="invalid-feedback">
-            {% for error in form.phone_number.errors %}
-              {{ error }}
-            {% endfor %}
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100 mt-2">
-          Update info
-        </button>
-
-      </form>
-
+      <button type="submit" class="button auth-btn">Update info</button>
     </div>
-  </div>
+
+  </form>
 </div>
 
-{% endblock %}
+{% endblock container %}

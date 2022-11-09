@@ -6,46 +6,47 @@
 
 {% block container %}
 
-<div class="container">
-  <div class="row justify-content-md-center">
-    <div class="col-6 p-4" id="profile-box">
-      <h5 class="mb-2">Post a new photo!</h5>
+<div class="post new-post">
+  <h2 class="">Post a new photo!</h2>
 
-      <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
 
-        {# Description field #}
-        <div class="form-group mb-2">
-          <textarea
-            class="form-control {% if form.title.errors %}is-invalid{% endif %}"
-            type="text"
-            name="title"
-            placeholder="Title"></textarea>
-          <div class="invalid-feedback">
-            {% for error in form.title.errors %}{{ error }}{% endfor %}
-          </div>
-        </div>
-
-        {# Photo field #}
-        <div class="form-group">
-          <label>Choose your photo:</label>
-          <input
-            class="form-control {% if form.photo.errors %}is-invalid{% endif %}"
-            type="file"
-            name="photo"
-            placeholder="photo"
-          />
-          <div class="invalid-feedback">
-            {% for error in form.photo.errors %}{{ error }}{% endfor %}
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-4">
-          Publish!
-        </button>
-      </form>
+    {# Description field #}
+    <div class="new-title">
+      <textarea
+        autofocus
+        class="{% if form.title.errors %}is-invalid{% endif %}"
+        type="text"
+        name="title"
+        placeholder="Title"
+        rows=1
+      ></textarea>
+      <div class="errorlist">
+        {% for error in form.title.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
     </div>
-  </div>
+
+    {# Photo field #}
+    <div class="new-photo">
+      <label>Choose your photo:</label>
+      <input
+        class="{% if form.photo.errors %}is-invalid{% endif %}"
+        type="file"
+        name="photo"
+      />
+      <div class="errorlist">
+        {% for error in form.photo.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="button" id="publish-button">Publish!</button>
+    </div>
+
+  </form>
 </div>
 
 {% endblock container %}

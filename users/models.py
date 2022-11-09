@@ -24,8 +24,8 @@ class Profile(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        """Returns username"""
-        return self.user.username
+        """Returns first and last name"""
+        return self.user.first_name + ' ' + self.user.last_name
 
     def following(self):
         user_ids = Relationship.objects.filter(from_user=self.user).values_list('to_user_id', flat=True)

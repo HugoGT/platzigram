@@ -24,7 +24,7 @@ class SignupForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Username',
-                'class': 'form-control',
+                'class': 'auth-input',
                 }
             )
         )
@@ -35,7 +35,7 @@ class SignupForm(forms.Form):
         widget = forms.TextInput(
             attrs={
                 'placeholder':'First name',
-                'class': 'form-control',
+                'class': 'auth-input',
                 }
             )
         )
@@ -47,7 +47,7 @@ class SignupForm(forms.Form):
         widget = forms.TextInput(
             attrs={
                 'placeholder':'Last name',
-                'class': 'form-control',
+                'class': 'auth-input',
                 }
             )
         )
@@ -59,7 +59,7 @@ class SignupForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder':'Email',
-                'class': 'form-control',
+                'class': 'auth-input',
                 }
             )
         )
@@ -70,7 +70,7 @@ class SignupForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder':'Password',
-                'class': 'form-control',
+                'class': 'auth-input',
                 }
             )
         )
@@ -81,10 +81,11 @@ class SignupForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder':'Password confirmation',
-                'class': 'form-control',
+                'class': 'auth-input',
                 }
             )
         )
+
 
     def clean_username(self):
         """Username must be unique"""

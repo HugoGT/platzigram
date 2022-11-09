@@ -3,12 +3,11 @@
 
 {% block container %}
 
-<div class="row justify-content-center align-middle">
-  <div class="col-sm-12 col-md-6 col-lg-6 p-5" id="auth-container">
+<div class="auth-container">
     <img
+      class="auth-img"
       src="{% static 'img/platzigram.png' %}"
       alt="platzigram image"
-      class="img-fluid rounded mx-auto d-block pb-2"
       style="max-width: 60%"
     />
 
@@ -17,9 +16,8 @@
 
       {{ form.as_p }}
 
-      <button type="submit" class="btn btn-primary w-100">Sign up</button>
+      <button type="submit" class="auth-btn auth-btn-up">Sign up</button>
     </form>
   </div>
-</div>
 
 {% endblock container %}
