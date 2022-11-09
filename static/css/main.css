@@ -433,6 +433,29 @@ body {
 
 
 /* Footer */
+.pagination-container {
+  width: 100%;
+  max-width: 920px;
+  margin: 12px auto;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.pagination-item {
+  padding: 8px;
+  background-color: var(--pastel-blue);
+  border: 1px solid var(--pastel-blue);
+  border-radius: 8px;
+}
+.pagination-link,
+.pagination-link:link,
+.pagination-link:active,
+.pagination-link:visited {
+  font-size: 0.9em;
+  color: var(--white);
+}
 
 
 @media (min-width:768px) {
