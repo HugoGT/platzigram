@@ -12,24 +12,21 @@
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
-    {# Description field #}
     <div class="new-title">
-      <textarea
+      <input
         autofocus
         class="{% if form.title.errors %}is-invalid{% endif %}"
         type="text"
         name="title"
         placeholder="Title"
-        rows=1
-      ></textarea>
-      <div class="errorlist">
-        {% for error in form.title.errors %}
+      ></input>
+      {% for error in form.title.errors %}
+        <p class="error">
           {{ error }}
-        {% endfor %}
-      </div>
+        </p>
+      {% endfor %}
     </div>
 
-    {# Photo field #}
     <div class="new-photo">
       <label>Choose your photo:</label>
       <input
@@ -37,11 +34,11 @@
         type="file"
         name="photo"
       />
-      <div class="errorlist">
-        {% for error in form.photo.errors %}
+      {% for error in form.photo.errors %}
+        <p class="error">
           {{ error }}
-        {% endfor %}
-      </div>
+        </p>
+      {% endfor %}
 
       <button type="submit" class="button" id="publish-button">Publish!</button>
     </div>

@@ -17,7 +17,9 @@
       {{ form.as_p }}
 
       <button type="submit" class="auth-btn auth-btn-up">Sign up</button>
+
     </form>
+    <p class="auth-p">Already have an account?, <a href="{% url 'users:login' %}">Sign in</a></p>
   </div>
 
 {% endblock container %}

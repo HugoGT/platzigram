@@ -10,6 +10,7 @@
 
 <div class="post">
   <div class="post-detail">
+
     <div class="post_img">
       <img src="{{ post.photo.url }}" alt="{{ post.title }}" />
     </div>
@@ -63,15 +64,14 @@
         >
           {% csrf_token %}
           <input type="hidden" name="post" id="post" value="{{ post.id }}" />
-          <textarea
-            class="write-comment_form {% if form.title.errors %}is-invalid{% endif %}"
+          <input
+            class="write-comment_form {% if form.comment.errors %}is-invalid{% endif %}"
             type="text"
             name="comment"
             id="comment"
-            rows="2"
             placeholder="Write a comment"
             required
-          ></textarea>
+          ></input>
           <button type="submit" class="button">Comment</button>
         </form>
       </div>
@@ -87,7 +87,7 @@
             {% endif %}
           </button>
         </form>
-        <p class="">
+        <p>
           {{ post.count_likes }} like{{post.count_likes|pluralize }} - {{ post.created|naturaltime }}
         </p>
       </div>

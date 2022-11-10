@@ -1,6 +1,7 @@
 """Posts views"""
 
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
@@ -31,6 +32,8 @@ class PostsCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.profile = self.request.user.profile
+        messages.success(self.request, 'Your post has been created!')
+
         return super().form_valid(form)
 
 
@@ -57,6 +60,7 @@ class PostCreateComment(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+
         return super().form_valid(form)
 
 
