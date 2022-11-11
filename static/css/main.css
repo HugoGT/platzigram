@@ -57,33 +57,45 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
+  height: 61px;
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px 16px;
   background-color: var(--white);
   border-bottom: 1px solid var(--grey);
 }
-.nav-right,
-.nav-right img {
+.nav-left,
+.nav-left img {
   height: 40px;
   width: 124px;
 }
-.nav-left {
+.nav-right {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   justify-content: end;
-  width: 160px;
+  width: 180px;
   height: 40px;
 }
-.nav-left a {
-  margin-left: 8px;
+.nav-right .nav-svg {
+  width: 40px;
+  height: 40px;
 }
-.nav-left i {
+.nav-right i {
   font-size: 24px;
   margin: 8px;
 }
-.nav-left a:hover {
+.nav-right img {
+  margin-left: 8px;
+}
+.nav-right svg {
+  height: 40px;
+  width: 40px;
+  padding: 8px 8px 12px;
+  fill: var(--black);
+}
+.nav-right a:hover, .nav-right svg:hover {
   color: var(--pastel-blue);
+  fill: var(--pastel-blue);
 }
 
 /* Main */
@@ -448,20 +460,6 @@ body {
 .is-invalid:focus-visible {
   outline: 1px solid var(--error-red);
 }
-.error,
-.errorlist {
-  color: var(--error-red);
-  margin: 8px 0;
-}
-.error::before,
-.errorlist li::before {
-  content: "· ";
-  color: var(--error-red);
-}
-div .is-invalid {
-  border: 1px solid var(--error-red);
-  border-radius: 4px;
-}
 
 /* Footer */
 .pagination-container {
@@ -487,6 +485,22 @@ div .is-invalid {
 .pagination-link:visited {
   font-size: 0.9em;
   color: var(--white);
+}
+
+/* Errors */
+.error,
+.errorlist {
+  color: var(--error-red);
+  margin: 8px 0;
+}
+.error::before,
+.errorlist li::before {
+  content: "· ";
+  color: var(--error-red);
+}
+div .is-invalid {
+  border: 1px solid var(--error-red);
+  border-radius: 4px;
 }
 
 /* Media query */
