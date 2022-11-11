@@ -7,10 +7,11 @@
   --pastel-blue: #206b82;
   --white: #fff;
   --off-white: #ebebeb;
-  --green: #389432;
-  --light-green: #50bb40;
+  --green: #aec999;
+  --light-green: #c4dfb8;
+  --dark-green: #3c763d;
   --grey: #c3c3c3;
-  --darker-grey: #5a5a5a;
+  --dark-grey: #5a5a5a;
   --black: #121010;
 }
 * {
@@ -392,7 +393,7 @@ body {
 .auth-p {
   padding: 8px 0;
   font-size: 0.9em;
-  color: var(--darker-grey);
+  color: var(--dark-grey);
   border-top: 1px solid var(--grey);
 }
 .auth-p a {
@@ -404,7 +405,7 @@ body {
 }
 .auth-btn-up {
   color: var(--white);
-  background-color: var(--green);
+  background-color: var(--dark-green);
   cursor: pointer;
   border-radius: 6px;
   border: none;
@@ -439,18 +440,18 @@ body {
   max-width: 920px;
   margin: 8px auto;
   padding: 12px;
-  color: var(--white);
+  color: var(--dark-green);
   background-color: var(--light-green);
-  border: none;
+  border: 1px solid var(--green);
   border-radius: 8px;
   justify-self: start;
   align-self: flex-start;
 }
 .message p {
-  font-weight: 500;
+  font-size: 0.9em;
 }
 .message svg {
-  fill: var(--white);
+  fill: var(--dark-green);
   cursor: pointer;
 }
 .is-invalid {
