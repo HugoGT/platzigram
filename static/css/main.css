@@ -498,6 +498,41 @@ body {
   content: "· ";
   color: var(--error-red);
 }
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 520px;
+  margin: 20vh auto;
+  padding: 40px;
+}
+.error-page h1 {
+  font-size: 8em;
+}
+.error-page p {
+  text-align: center;
+  font-size: 2em;
+  font-weight: 700;
+}
+.error-page a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 8px 16px;
+  color: var(--white);
+  background-color: var(--blue);
+  border-radius: 8px;
+}
+.error-page svg {
+  height: 24px;
+  width: 24px;
+  margin-bottom: 6px;
+  margin-right: 6px;
+  fill: var(--white);
+}
 div .is-invalid {
   border: 1px solid var(--error-red);
   border-radius: 4px;
